@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🕷️ Spider League - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .phone-container {
+            max-width: 375px;
+            margin: 20px auto;
+            border: 8px solid #333;
+            border-radius: 30px;
+            background: #1a1a1a;
+            padding: 20px 0;
+            min-height: 90vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            min-height: calc(90vh - 40px);
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b35;
+        }
+
+        .back-btn, .logout-btn {
+            background: none;
+            border: none;
+            color: #ff6b35;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .form {
+            margin-bottom: 40px;
+        }
+
+        .input {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            color: #ffffff;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .button {
+            background: #ff6b35;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            margin-bottom: 16px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #e55a2b;
+        }
+
+        .secondary-button {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: #ff6b35;
+        }
+
+        .link-button {
+            background: none;
+            border: none;
+            color: #ff6b35;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            padding: 8px;
+        }
+
+        .profile-card {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #cccccc;
+            margin-top: 4px;
+        }
+
+        .rank-silver {
+            color: #c0c0c0;
+        }
+
+        .battle-text {
+            text-align: center;
+            color: #cccccc;
+            font-size: 14px;
+        }
+
+        .spider-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .spider-card {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .spider-card.active {
+            border-color: #ff6b35;
+            border-width: 2px;
+        }
+
+        .spider-emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+
+        .spider-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .spider-species {
+            font-size: 12px;
+            color: #cccccc;
+            margin-bottom: 8px;
+        }
+
+        .rarity-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .rarity-epic {
+            background: #9c27b0;
+        }
+
+        .rarity-legendary {
+            background: #ff9800;
+        }
+
+        .rarity-common {
+            background: #9e9e9e;
+        }
+
+        .power-text {
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        .camera-demo {
+            background: #2a2a2a;
+            border-radius: 12px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .crosshair {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #ff6b35;
+            border-radius: 50%;
+            background: rgba(255, 107, 53, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .crosshair-spider {
+            font-size: 30px;
+        }
+
+        .capture-btn {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #ffffff;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .capture-inner {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        .demo-info {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #ff6b35;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .demo-text {
+            color: #ff6b35;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #666666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <!-- Login Screen -->
+        <div class="screen active" id="login-screen">
+            <div class="header">
+                <div class="title">🕷️ Spider League</div>
+            </div>
+            <div style="text-align: center; margin-bottom: 40px;">
+                <div style="font-size: 16px; color: #cccccc;">Collect. Battle. Dominate.</div>
+            </div>
+            <div class="form">
+                <input type="email" class="input" placeholder="Email" id="login-email">
+                <input type="password" class="input" placeholder="Password" id="login-password">
+                <button class="button" onclick="login()">Sign In</button>
+                <button class="link-button" onclick="showScreen('register-screen')">Don't have an account? Sign Up</button>
+            </div>
+            <div class="footer-text">Arizona Region • Demo v0.1</div>
+        </div>
+
+        <!-- Register Screen -->
+        <div class="screen" id="register-screen">
+            <div class="header">
+                <div class="title">🕷️ Join the League</div>
+            </div>
+            <div style="text-align: center; margin-bottom: 30px;">
+                <div style="font-size: 16px; color: #cccccc;">Start your spider hunting journey</div>
+            </div>
+            <div class="form">
+                <input type="text" class="input" placeholder="Username" id="register-username">
+                <input type="email" class="input" placeholder="Email" id="register-email">
+                <input type="password" class="input" placeholder="Password" id="register-password">
+                <input type="password" class="input" placeholder="Confirm Password" id="register-confirm">
+                
+                <div class="demo-info" style="margin: 20px 0;">
+                    <div class="demo-text">🏜️ Joining: Arizona Desert League</div>
+                    <div style="color: #cccccc; font-size: 14px; margin-top: 4px;">Hunt desert spiders and climb the ranks!</div>
+                </div>
+                
+                <button class="button" onclick="register()">Create Account</button>
+                <button class="link-button" onclick="showScreen('login-screen')">Already have an account? Sign In</button>
+            </div>
+        </div>
+
+        <!-- Home Screen -->
+        <div class="screen" id="home-screen">
+            <div class="header">
+                <div class="title">🕷️ Spider League</div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+            
+            <div class="profile-card">
+                <div class="username">SpiderHunter</div>
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <span class="stat-value rank-silver">Silver</span>
+                        <div class="stat-label">Rank</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">1347</span>
+                        <div class="stat-label">ELO Rating</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">67%</span>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                </div>
+                <div class="battle-text">8W • 4L • 12 Total Battles</div>
+            </div>
+
+            <div class="profile-card">
+                <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">Arizona Desert League</div>
+                <div style="color: #cccccc; font-size: 14px; margin-bottom: 12px;">Battle with desert spiders in the harsh Arizona wilderness</div>
+                <div style="color: #ff6b35; font-weight: bold;">Rank #23 of 247 players</div>
+            </div>
+
+            <div class="profile-card">
+                <div style="font-size: 18px; font-weight: bold; margin-bottom: 16px;">Your Collection</div>
+                <div style="display: flex; justify-content: space-around;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #ff6b35;">15</div>
+                        <div style="font-size: 12px; color: #cccccc;">Spiders</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #ff6b35;">106</div>
+                        <div style="font-size: 12px; color: #cccccc;">Avg Power</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 20px; font-weight: bold; color: #ff6b35;">3</div>
+                        <div style="font-size: 12px; color: #cccccc;">Win Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="button" onclick="showScreen('camera-screen')" style="margin-bottom: 12px;">📸 Capture Spider</button>
+            <div style="display: flex; gap: 12px;">
+                <button class="button secondary-button" onclick="showScreen('collection-screen')" style="flex: 1; margin: 0;">🕸️ Collection</button>
+                <button class="button secondary-button" onclick="showBattle()" style="flex: 1; margin: 0;">⚔️ Battle</button>
+            </div>
+        </div>
+
+        <!-- Camera Screen -->
+        <div class="screen" id="camera-screen">
+            <div class="header">
+                <button class="back-btn" onclick="showScreen('home-screen')">← Back</button>
+                <div style="color: #ff6b35; font-weight: bold;">📱 Demo Camera</div>
+            </div>
+
+            <div class="camera-demo">
+                <div class="crosshair">
+                    <div class="crosshair-spider">🕷️</div>
+                    <div style="color: #ff6b35; font-size: 14px; font-weight: bold;">Desert Spider Spotted!</div>
+                </div>
+                <div class="capture-btn" onclick="captureSpider()">
+                    <div class="capture-inner"></div>
+                </div>
+            </div>
+
+            <div style="text-align: center; color: #ffffff; background: rgba(0, 0, 0, 0.5); padding: 8px 16px; border-radius: 20px; margin: 20px 0;">
+                Demo: Tap capture to simulate spider identification
+            </div>
+
+            <div class="demo-info">
+                <div class="demo-text">🎭 Demo Mode: Simulating camera capture and AI analysis</div>
+                <div style="color: #cccccc; font-size: 12px; margin-top: 4px;">In production: Real camera + Google Vision API</div>
+            </div>
+        </div>
+
+        <!-- Collection Screen -->
+        <div class="screen" id="collection-screen">
+            <div class="header">
+                <button class="back-btn" onclick="showScreen('home-screen')">← Back</button>
+                <div style="font-weight: bold;">My Spiders (3)</div>
+            </div>
+
+            <div class="spider-grid">
+                <div class="spider-card active">
+                    <div class="spider-emoji">🕷️</div>
+                    <div class="spider-name">Desert Widow #247</div>
+                    <div class="spider-species">Black Widow</div>
+                    <div style="margin-bottom: 8px;">
+                        <span class="rarity-badge rarity-epic">EPIC</span>
+                        <span style="font-size: 16px;">🕸️</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span class="power-text">⚡ 145</span>
+                        <span style="color: #cccccc; font-size: 12px;">Lv.3</span>
+                    </div>
+                    <div style="font-size: 10px; color: #999999;">3W • 1L</div>
+                    <div style="position: absolute; top: -5px; right: -5px; background: #ff6b35; border-radius: 12px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px;">⚔️</div>
+                </div>
+
+                <div class="spider-card">
+                    <div class="spider-emoji">🔍</div>
+                    <div class="spider-name">Jumper #891</div>
+                    <div class="spider-species">Jumping Spider</div>
+                    <div style="margin-bottom: 8px;">
+                        <span class="rarity-badge rarity-common">COMMON</span>
+                        <span style="font-size: 16px;">🕷️</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span class="power-text">⚡ 67</span>
+                        <span style="color: #cccccc; font-size: 12px;">Lv.1</span>
+                    </div>
+                    <div style="font-size: 10px; color: #999999;">0W • 0L</div>
+                </div>
+
+                <div class="spider-card active">
+                    <div class="spider-emoji">🦴</div>
+                    <div class="spider-name">Tarantula #001</div>
+                    <div class="spider-species">Desert Tarantula</div>
+                    <div style="margin-bottom: 8px;">
+                        <span class="rarity-badge rarity-legendary">LEGENDARY</span>
+                        <span style="font-size: 16px;">🦂</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span class="power-text">⚡ 220</span>
+                        <span style="color: #cccccc; font-size: 12px;">Lv.5</span>
+                    </div>
+                    <div style="font-size: 10px; color: #999999;">7W • 1L</div>
+                    <div style="position: absolute; top: -5px; right: -5px; background: #ff6b35; border-radius: 12px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px;">⚔️</div>
+                </div>
+            </div>
+
+            <div class="footer-text">Long press a spider to activate/deactivate for battles</div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="screen" id="loading-screen">
+            <div class="loading">
+                <div style="font-size: 40px; margin-bottom: 20px;">🕷️</div>
+                <div style="font-size: 18px; margin-bottom: 10px;">Analyzing spider...</div>
+                <div style="color: #cccccc;">AI is identifying species and calculating power level...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Demo login - any credentials work
+            setTimeout(() => {
+                alert('Demo Login Successful! 🕷️\n\nWelcome to Spider League!\nLogged in as: SpiderHunter');
+                showScreen('home-screen');
+            }, 1000);
+        }
+
+        function register() {
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+
+            if (!username || !email || !password || !confirm) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            if (password !== confirm) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Demo registration
+            setTimeout(() => {
+                alert('Demo Registration Successful! 🕷️\n\nWelcome to the Arizona Desert League!\nAccount created: ' + username);
+                showScreen('home-screen');
+            }, 1500);
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                showScreen('login-screen');
+                // Clear form fields
+                document.querySelectorAll('input').forEach(input => input.value = '');
+            }
+        }
+
+        function captureSpider() {
+            showScreen('loading-screen');
+            
+            setTimeout(() => {
+                const spiders = [
+                    'Black Widow (Epic, Power: 145)',
+                    'Desert Tarantula (Legendary, Power: 220)', 
+                    'Jumping Spider (Common, Power: 67)',
+                    'Wolf Spider (Uncommon, Power: 89)'
+                ];
+                
+                const randomSpider = spiders[Math.floor(Math.random() * spiders.length)];
+                
+                alert('Spider Captured! 🕷️\n\nYou found a ' + randomSpider + '\n\nAdded to your collection!');
+                showScreen('home-screen');
+            }, 3000);
+        }
+
+        function showBattle() {
+            alert('Demo Battle System ⚔️\n\n• Find opponents by ELO rating\n• Real-time RNG-based combat\n• Attack, Defend, Special abilities\n• ELO updates after each battle\n\nFinding match... (Demo)');
+            
+            setTimeout(() => {
+                alert('Match Found! ⚔️\n\nOpponent: DesertRival (Silver, 1325 ELO)\nTheir Spider: Wolf Spider (Power: 89)\n\nBattle would start now in real app!');
+            }, 2000);
+        }
+
+        // Auto-fill demo credentials
+        setTimeout(() => {
+            document.getElementById('login-email').value = 'demo@spiderleague.com';
+            document.getElementById('login-password').value = 'demo123';
+        }, 500);
+    </script>
+</body>
+</html>
