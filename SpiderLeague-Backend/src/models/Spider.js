@@ -191,7 +191,17 @@ spiderSchema.virtual('winRate').get(function() {
 
 // Pre-save hook to calculate power level
 spiderSchema.pre('save', function(next) {
-  if (this.isNew || this.isModified(['size', 'rarity', 'dangerLevel', 'photoQuality', 'confidence'])) {
+  // Mongoose's isModified accepts a single path; passing an array always returns
+  // false. This meant power level wouldn't update when any of these fields
+  // changed. Check each relevant path individually instead.
+  if (
+    this.isNew ||
+    this.isModified('size') ||
+    this.isModified('rarity') ||
+    this.isModified('dangerLevel') ||
+    this.isModified('photoQuality') ||
+    this.isModified('confidence')
+  ) {
     this.calculatePowerLevel();
   }
   next();
