@@ -5,6 +5,8 @@ import { View, StyleSheet, Alert } from 'react-native';
 // import { apiService } from './src/services/api';
 import { demoApiService as apiService } from './src/services/demo-api';
 import { User, Spider } from './src/types';
+import LoadingOverlay from './src/components/LoadingOverlay';
+import { colors } from './src/theme';
 
 // Screens
 import LoginScreen from './src/screens/LoginScreen';
@@ -87,11 +89,7 @@ export default function App() {
   };
 
   if (loading) {
-    return (
-      <View style={styles.container}>
-        <StatusBar style="light" />
-      </View>
-    );
+    return <LoadingOverlay />;
   }
 
   const renderScreen = () => {
@@ -171,6 +169,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.background,
   },
 });
