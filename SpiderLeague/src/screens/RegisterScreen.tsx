@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { demoApiService as apiService } from '../services/demo-api';
+import { colors } from '../theme';
 
 interface RegisterScreenProps {
   onRegister: (user: any) => void;
@@ -148,7 +149,7 @@ export default function RegisterScreen({ onRegister, onSwitchToLogin }: Register
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.background,
   },
   scrollContent: {
     flexGrow: 1,
@@ -162,26 +163,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#ff6b35',
+    color: colors.primary,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#cccccc',
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   form: {
     marginBottom: 40,
   },
   input: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.card,
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
-    color: '#ffffff',
+    color: colors.text,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.border,
   },
   regionInfo: {
     backgroundColor: '#2a4a2a',
@@ -198,11 +199,11 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   regionSubtext: {
-    color: '#cccccc',
+    color: colors.textSecondary,
     fontSize: 14,
   },
   button: {
-    backgroundColor: '#ff6b35',
+    backgroundColor: colors.primary,
     borderRadius: 8,
     padding: 16,
     alignItems: 'center',
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#cc5529',
   },
   buttonText: {
-    color: '#ffffff',
+    color: colors.text,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   linkText: {
-    color: '#ff6b35',
+    color: colors.primary,
     fontSize: 16,
   },
   footer: {

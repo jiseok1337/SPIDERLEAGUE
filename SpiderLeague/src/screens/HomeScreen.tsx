@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { demoApiService as apiService } from '../services/demo-api';
 import { User, League } from '../types';
+import LoadingOverlay from '../components/LoadingOverlay';
+import { colors } from '../theme';
 
 interface HomeScreenProps {
   user: User;
@@ -68,8 +70,12 @@ export default function HomeScreen({ user, onNavigate, onLogout }: HomeScreenPro
     );
   };
 
+  if (!league || !stats) {
+    return <LoadingOverlay />;
+  }
+
   return (
-    <ScrollView 
+    <ScrollView
       style={styles.container}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -180,7 +186,7 @@ export default function HomeScreen({ user, onNavigate, onLogout }: HomeScreenPro
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -192,27 +198,27 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ff6b35',
+    color: colors.primary,
   },
   logoutButton: {
     padding: 8,
   },
   logoutText: {
-    color: '#ff6b35',
+    color: colors.primary,
     fontSize: 16,
   },
   profileCard: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.card,
     margin: 20,
     padding: 20,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.border,
   },
   username: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: colors.text,
     textAlign: 'center',
     marginBottom: 16,
   },
@@ -231,37 +237,37 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: colors.text,
   },
   statLabel: {
     fontSize: 12,
-    color: '#cccccc',
+     color: colors.textSecondary,
     marginTop: 4,
   },
   battleStats: {
     alignItems: 'center',
   },
   battleText: {
-    color: '#cccccc',
+    color: colors.textSecondary,
     fontSize: 14,
   },
   leagueCard: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     marginBottom: 20,
     padding: 20,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.border,
   },
   cardTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#ffffff',
+    color: colors.text,
     marginBottom: 8,
   },
   leagueDescription: {
-    color: '#cccccc',
+    color: colors.textSecondary,
     fontSize: 14,
     marginBottom: 12,
   },
@@ -269,28 +275,28 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   leagueText: {
-    color: '#ff6b35',
+    color: colors.primary,
     fontSize: 16,
     fontWeight: 'bold',
   },
   leagueButton: {
-    backgroundColor: '#3a3a3a',
+    backgroundColor: colors.border,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
   },
   leagueButtonText: {
-    color: '#ff6b35',
+    color: colors.primary,
     fontWeight: 'bold',
   },
   quickStats: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.card,
     marginHorizontal: 20,
     marginBottom: 20,
     padding: 20,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.border,
   },
   statsGrid: {
     flexDirection: 'row',
@@ -302,11 +308,11 @@ const styles = StyleSheet.create({
   quickStatValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#ff6b35',
+    color: colors.primary,
   },
   quickStatLabel: {
     fontSize: 12,
-    color: '#cccccc',
+    color: colors.textSecondary,
     marginTop: 4,
   },
   actionButtons: {
@@ -319,22 +325,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   primaryButton: {
-    backgroundColor: '#ff6b35',
+    backgroundColor: colors.primary,
   },
   secondaryButton: {
-    backgroundColor: '#2a2a2a',
+    backgroundColor: colors.card,
     borderWidth: 1,
-    borderColor: '#3a3a3a',
+    borderColor: colors.border,
     flex: 1,
     marginHorizontal: 6,
   },
   actionButtonText: {
-    color: '#ffffff',
+    color: colors.text,
     fontSize: 18,
     fontWeight: 'bold',
   },
   secondaryButtonText: {
-    color: '#ff6b35',
+    color: colors.primary,
     fontSize: 16,
     fontWeight: 'bold',
   },
